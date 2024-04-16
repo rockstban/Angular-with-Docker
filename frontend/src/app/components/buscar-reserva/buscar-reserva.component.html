@@ -1,0 +1,23 @@
+<div class="overlay" *ngIf="cargando || cargando2">
+    <p-progressSpinner ariaLabel="loading" ></p-progressSpinner>
+</div>
+<p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+<div class="container mt-3" *ngIf="!cargando">
+    <div class="jumbotron text-center">
+        <img class="logo_img" src="../../../assets/img/logo.png" alt="logo" title="logo">
+        <br>
+        <br>
+        <h3 class="titulo">Encontrar una reserva </h3>
+        <br>
+        <p class="lead">Revisa, modifica o cancela reservas realizadas</p>
+        <hr class="my-4">
+        <form [formGroup]="reservaForm" (ngSubmit)="buscarReserva()">
+            <div class="field">
+                <!-- <label for="codigoReserva" class="block labelForm">Código de la reserva: </label> -->
+                <input type="text" pInputText placeholder="Ingresa el código de la reserva" formControlName="codigoReserva">
+                <small class="p-error block" *ngIf="reservaForm.get('codigoReserva')?.invalid && (reservaForm.get('codigoReserva')?.dirty || reservaForm.get('codigoReserva')?.touched)">El código de la reserva es requerido</small>
+            </div>
+            <p-button type="submit" label="Buscar reserva" icon="pi pi-search" iconPos="left" [disabled]="reservaForm.invalid" ></p-button>
+        </form>
+    </div>
+</div>

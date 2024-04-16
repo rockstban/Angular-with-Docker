@@ -1,0 +1,11 @@
+<app-header></app-header>
+<app-buscador *ngIf="!esconderBuscador"></app-buscador>
+<br><br>
+<section>
+    <router-outlet></router-outlet>
+    <br><br><br>
+<app-footer *ngIf="!esconderFooter"></app-footer>
+</section>
+
+
+

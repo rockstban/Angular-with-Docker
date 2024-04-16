@@ -1,0 +1,16 @@
+<div class="overlay" *ngIf="cargando">
+    <p-progressSpinner ariaLabel="loading" ></p-progressSpinner>
+  </div>
+  <div class="container mt-5" *ngIf="!cargando">
+      <div class="jumbotron text-center">
+        <h1 class="display-4">¡Actualización exitosa!</h1>
+        <p class="lead">La actualización de su estadia fué realizada con éxito.</p>
+        <hr class="my-4">
+        <p>
+          Puede ver los detalles de la estadia mediante el código de reserva:
+          <span type="button" class="btn btn-link btn-detalles" (click)="detalles()">{{reserva._id}}</span>
+        </p>
+        <br>
+        <button pButton type="submit" label="Ir al inicio" icon="pi pi-home" iconPos="left" class="inicio" (click)="inicio()"></button>
+      </div>
+    </div>

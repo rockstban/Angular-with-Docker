@@ -1,0 +1,23 @@
+# We use the node base image for deploying the app.
+FROM node:18.13 
+
+# Specify the creator of the Docker image.
+LABEL manteiner="Esteban López <stban_rocker@hotmail.com>"
+
+# Create a working directory for the container. 
+WORKDIR /app
+
+# Copy all backend dependencies into the container.
+COPY package.json .
+
+# Install each dependency listed in .json.
+RUN npm install
+
+# After installing all dependencies, copy all files located within the backend folder to the path /app. 
+COPY . .
+
+# The application listens on port 3600, so we expose it. 
+EXPOSE 3600
+
+# Command to start the backend within the container.
+CMD [ "npm", "start" ]

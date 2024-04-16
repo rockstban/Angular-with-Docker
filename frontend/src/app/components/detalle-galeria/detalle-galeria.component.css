@@ -1,0 +1,5 @@
+.responsive-image {
+    width: 100%;
+    aspect-ratio: 16 / 10; /* Establece la proporción de aspecto deseada (ejemplo 16:9) */
+    object-fit: cover; /* Recorta la imagen para ajustarse al contenedor sin distorsionar */
+}

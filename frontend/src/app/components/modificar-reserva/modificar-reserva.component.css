@@ -1,0 +1,213 @@
+/*Estilos para el spinner de carga*/
+.overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Black background with 0.5 opacity */
+    z-index: 9999; /* Make sure it's on top of other elements */
+}
+::ng-deep svg.p-progress-spinner-svg circle {
+    stroke: #ffffff !important; /* Replace with your desired color */
+}
+
+/*Estilos para el titulo*/
+.titulo{
+    color: rgb(32, 32, 32);
+}
+
+/*Estilos para el titulo de reserva actual*/
+.reservaActual{
+    font-weight: 700;
+    color: #104C97;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/*Dar estilos al campo donde se muestra el rango de fechas*/
+:host ::ng-deep .p-calendar .p-inputtext {
+    color: #000000;
+    font-weight:500;
+    background-color: white;
+    border: 1px solid #004ba0;
+    cursor: pointer;
+}
+
+/*Estilos para el campo donde se muestra el rango de fechas cuando 
+el rango es invalido*/
+:host ::ng-deep .ng-invalid.ng-dirty .p-inputtext {
+    border: 2px solid red !important;
+}
+
+/*Estilos para el calendario cuando se muestra*/
+:host ::ng-deep .p-calendar .p-datepicker {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+/*dar estilos al icono del calendario*/
+:host ::ng-deep .p-calendar .p-button{
+    background-color: #003068;
+    border-color: #003068;
+}
+
+/* botones para incrementar y decrementar 
+la cantidad de habitaciones y huespedes */
+.spacing-button {
+    border-radius: 30px;
+    color: #002147;
+    border: 1px solid #002147;
+    background-color: white;
+}
+
+.spacing-button:disabled {
+    border-color: #bcbbbb;
+    color: #bcbbbb;
+}
+
+/*para tener un espacio entre los botones para incremetar,decrementar y la cantidad*/
+.cantidad {
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+/* Para quitar los estilos del boton de "Añadir otra habitacion" en el diálogo
+y poner el texto en negrita*/
+.bold-text  {
+    font-weight: bold;
+    color: #000000;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+/*Dar estilos al boton-ícono de eliminiar (trash)*/
+.trash-icon {
+    color: #002147;
+    background: none;
+    border: none;
+}
+.trash-icon:disabled {
+    color: #bcbbbb;
+}
+
+/*Dar estilos al boton "Listo" en el dialogo*/
+.btn-listo-custom{
+    background: #003068;
+    color: white;
+    transition: all 100ms;
+    border-radius: 5px;
+}
+.btn-listo-custom:hover{
+    background: #002147;
+}
+
+/*Dar estilos a los botones que estan dentro del contenedor*/
+.btn-container{
+    color: #242424;
+    background-color: white;
+    border: 1px solid #004ba0;
+    border-radius: 5px;
+}
+.btn-container:hover{
+    color: #242424;
+    background-color: #ececec;
+}
+/* @media (max-width: 768px) {
+    .btn-container {
+        width: 90%;
+    }
+} */
+
+/*Cambiar los estilos de los dias seleccionados en el calendario*/
+:host ::ng-deep .p-datepicker table td > span.p-highlight {
+    font-weight: 600;
+    color: #003068;
+    background: #e2ebf8;
+}
+
+/*Para separa*/
+.mb-6 {
+    margin-bottom: 6rem; /* Cambia esto al tamaño que quieras */
+}
+
+  /*estilos para el boton de verificar*/
+.btnCard {
+    background-color: #003068;
+    border-radius: 5px;
+    border-color: #003068;
+    height: 40px;
+}
+.btnCard:hover {
+    background: #004798;
+}
+
+/*Estilos para el boton verificar*/
+.card {
+    width: 100%; /* Ocupa el 100% del ancho en pantallas pequeñas */
+}
+
+@media (min-width: 768px) { /* En pantallas de 768px o más (pantallas medianas en Bootstrap) */
+    .card {
+        width: 60%;
+    }
+}
+
+/*Estilos para mostrar los precios*/
+.classPrecios{
+    font-weight: 700;
+    color: #10488c;
+    display: inline-block;
+}
+
+
+/*Estilos para el boton actualizar*/
+.btnActualizar {
+    background-color: #003068;
+    border-radius: 5px;
+    border-color: #003068;
+}
+.btnActualizar:hover {
+    background: #004798;
+}
+
+/* Definir un tamaño para el botón de PayPal */
+.paypal-button {
+    width: 35%;
+}
+
+/* Cuando la pantalla tiene 768px o menos, el botón de PayPal ocupará el 50% del div */
+@media (max-width: 768px) {
+    .paypal-button {
+        width: 60%;
+    }
+}
+
+/* Cuando la pantalla tiene 576px o menos, el botón de PayPal ocupará el 70% del div */
+@media (max-width: 576px) {
+    .paypal-button {
+        width: 90%;
+    }
+}
+
+/*Estilo para el boton de cancelar*/
+.btn-cancelar{
+    text-decoration: none;
+    margin: 0;
+    line-height: 0;
+    padding: 0;
+    font-weight: 500;
+    color: rgb(37, 37, 96);
+}
+.btn-cancelar:hover{
+    text-decoration: underline;
+}
+
+
+

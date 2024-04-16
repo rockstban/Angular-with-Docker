@@ -1,0 +1,237 @@
+<div class="overlay" *ngIf="cargando || cargando2">
+    <p-progressSpinner ariaLabel="loading" ></p-progressSpinner>
+</div>
+<p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+<div class="container" *ngIf="!cargando">
+    <div class="jumbotron">
+        <h2 class="titulo">Actualizar reserva</h2>
+    </div>
+    <div style="color: gray;">
+        {{reserva.nombreCliente}}, 
+        {{ reserva.correoElectronico}}
+    </div>
+    <br>
+    <span class="lead reservaActual" (click)="ocultarReservaActual()">
+        <span >Reservación actual</span>
+        <i class="fa-solid fa-caret-up px-2" *ngIf="mostrarReservaActual"></i>
+        <i class="fa-solid fa-caret-down px-2" *ngIf="!mostrarReservaActual"></i>
+    </span>
+   
+    <div class="row" *ngIf="mostrarReservaActual">
+        <span>
+            {{ fechasFormat[0] }}       
+            <i class="fa-solid fa-minus px-1"></i> 
+            {{ fechasFormat[1] }}
+        </span>
+        <span>
+            {{habitaciones.length}}
+            <span *ngIf="habitaciones.length > 1">habitaciones para</span>
+            <span *ngIf="habitaciones.length === 1">Habitación para</span>
+            {{totalHuespedes[0]}}
+            <span *ngIf="totalHuespedes[0] > 1">adultos </span>
+            <span *ngIf="totalHuespedes[0] === 1">adulto </span>
+            <span *ngIf="totalHuespedes[1] > 0">y 
+                {{totalHuespedes[1]}}
+                <span *ngIf="totalHuespedes[1] > 1">niños</span>
+                <span *ngIf="totalHuespedes[1] === 1">niño</span>
+            </span>
+        </span>
+        <span *ngFor="let habitacion of habitacionesReserva">
+            <span>{{habitacion.nombre | titlecase}} > ${{habitacion.precio}} por noche</span>
+        </span>
+        <br>
+        <br>
+        <span style="font-weight: 700;">Total de la estadía: ${{reserva.precioTotal}}</span>
+    </div>
+    <hr class="border border-primary border-2 opacity-75 my-3">
+    <br>
+    <div class="row">
+        <div class="d-flex justify-content-between">
+            <span class="lead" style="font-weight: 700;">Actualiza tu estadía</span>
+            <span type="button" class="btn btn-link btn-cancelar" (click)="cancelarCambios()">Cancelar cambios</span>
+        </div>
+        <span>Relizarás un pago o recibirás un reembolso por cualquier diferencia de precio.</span>
+        <div class="mb-5"></div>
+        <div class="col-md-12 mb-5">
+            <div class="card mx-auto">
+                <div class="card-header lead" style="font-weight: 500;">
+                    Cambiar fechas
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Selecciona las nuevas fechas para tu estadía: </p>
+                    <div class="d-flex justify-content-center">
+                        <p-calendar 
+                            [(ngModel)]="rangoFechas" 
+                            selectionMode="range" 
+                            [readonlyInput]="true" 
+                            (ngModelChange)="actualizacionFechas(); validarFechas()" 
+                            [minDate]="fechasMinMax[0]"
+                            [maxDate]="fechasMinMax[1]"
+                            [showIcon]="true" 
+                            icon="pi pi-calendar"
+                            [ngClass]="{'ng-invalid ng-dirty': fechaInvalida}">
+                        </p-calendar>
+                    </div>
+                    <div class="mb-5"></div>
+                    <div class="d-flex justify-content-center">
+                        <button pButton type="submit" label="Verificar" icon="pi pi-check-square" iconPos="left" class="btnCard" (click)="verDisponibilidad(1)"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-md-6">
+            <div class="card mx-auto">
+                <div class="card-header lead" style="font-weight: 500;">
+                    Cambiar habitaciones y huéspedes
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Selecciona las nuevas habitaciones y huéspedes: </p>
+                    <div class="d-flex justify-content-center">
+                        <button pButton (click)="mostrarDialogo()" icon="pi pi-user" label="Habitaciones: {{nuevoTotalHabitaciones}}, Huéspedes: {{nuevoTotalHuespedes}}" class="btn-container"></button>
+                    </div>
+                    <div class="mb-5"></div>
+                    <div class="d-flex justify-content-center">
+                        <button pButton type="submit" label="Buscar" icon="pi pi-search" iconPos="left" class="btnCard" (click)="cambiarIndice(2)"></button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="row">
+        <div *ngIf="mostrar ===1">
+            <span class="lead" style="font-weight: 700;">Cambia tus fechas</span>
+            <br>
+            <span>¡Gran noticia! Las nuevas fechas para actualizar tu estadía están disponibles. 🎉</span>
+            <div class="mb-4"></div>
+            <div class="col-md-12 mb-5">
+                <div class="card mx-auto">
+                    <div class="card-body">
+                        <p class="lead" style="font-weight: 500;">Fechas originales </p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <span style="font-weight: 600;">Check-in</span>
+                                <br>
+                                <span>{{fechasFormat[0]}}</span>
+                            </div>
+                            <div class="col-6">
+                                <span style="font-weight: 600;">Check-out</span>
+                                <br>
+                                <span>{{fechasFormat[1]}}</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between">
+                                <span class="classPrecios" style="font-weight: 700;">Precio total original</span>
+                                <span class="classPrecios" style="font-weight: 700;">${{reserva.precioTotal}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3"></div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-arrow-down fs-4"></i>
+                </div>
+                <div class="mb-3"></div>
+                <div class="card mx-auto">
+                    <div class="card-body">
+                        <p class="lead" style="font-weight: 500;">Fechas nuevas</p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <span style="font-weight: 600;">Check-in</span>
+                                <br>
+                                <span>{{fechasNuevasFormat[0]}}</span>
+                            </div>
+                            <div class="col-6">
+                                <span style="font-weight: 600;">Check-out</span>
+                                <br>
+                                <span>{{fechasNuevasFormat[1]}}</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between">
+                                <span class="classPrecios" style="font-weight: 700;">Precio total nuevo</span>
+                                <span class="classPrecios" style="font-weight: 700;">${{precioTotalNuevo}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4"></div>
+                <div class="card mx-auto">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between">
+                                <span class="classPrecios" style="font-weight: 700;">Diferencia</span>
+                                <span class="classPrecios" style="font-weight: 700;">
+                                    {{ (precioTotalNuevo - reserva.precioTotal) === 0 ? '' : (precioTotalNuevo - reserva.precioTotal) < 0 ? '- ' : '+ '}}${{ abs(precioTotalNuevo - reserva.precioTotal) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-5"></div>
+                <div *ngIf="(precioTotalNuevo - reserva.precioTotal) < 0" class="text-center">
+                    <p style="font-weight: 500;">Se realizará un reembolso de la diferencia a la cuenta de PayPal con la que pagaste la reserva</p>
+                    <button pButton type="submit" label="Actualizar estadía" icon="fa-solid fa-pen-to-square" iconPos="left" class="btnActualizar" (click)="reembolsoReserva()"></button>
+                </div>
+                <div *ngIf="(precioTotalNuevo - reserva.precioTotal) > 0" class="text-center">
+                    <p style="font-weight: 500;">Para continuar con la actualización de la estadía debes realizar el pago de la diferencia</p>
+                    <div style="display: flex; justify-content: center;">
+                        <div class="paypal-button" id="payment_options"></div>
+                    </div>
+                </div>
+                <div *ngIf="(precioTotalNuevo - reserva.precioTotal) === 0" class="text-center">
+                    <p style="font-weight: 500;">No hay cambios en el precio total de la reserva, se procederá a actualizar las fechas</p>
+                    <button pButton type="submit" label="Actualizar estadía" icon="fa-solid fa-pen-to-square" iconPos="left" class="btnActualizar" (click)="updateReserva()"></button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="mostrar ===2">
+            Componente2
+        </div>
+    </div>
+</div>
+
+<!-- Dialogo para seleccionar habitaciones y huespedes -->
+<p-dialog [closable]="true" header="Habitaciones y huéspedes" [(visible)]="visible" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false" [breakpoints]="{'1500px': '50vw', '1150px': '60vw', '900px': '70vw', '700px': '80vw', '600px': '90vw', '460px': '100vw'}">
+    <p-table [value]="habitaciones">
+        <!-- Header de la tabla -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th></th>
+                <th>Habitaciones</th>
+                <th>Adultos</th>
+                <th>Niños</th>
+            </tr>
+        </ng-template>
+        <!-- Cuerpo de la tabla -->
+        <ng-template pTemplate="body" let-habitacion let-i="rowIndex">
+            <tr>
+                <td>
+                <button type="button" class="fa-solid fa-trash trash-icon" (click)="eliminarHabitacion(i)" [disabled]="habitaciones.length <= 1"></button>
+                </td>
+                <td>{{habitacion.label}}</td>
+                <td>
+                    <button type="button" class="fa-solid fa-minus spacing-button"  (click)="habitacion.adultos = habitacion.adultos > 1 ? habitacion.adultos - 1 : 1; totalHabitacionesHuespedes()" [disabled]="habitacion.adultos <= 1"></button>
+                    <span class="cantidad">{{habitacion.adultos}}</span>
+                    <button type="button" class="fa-solid fa-plus spacing-button"  (click)="habitacion.adultos = habitacion.adultos < 6 && habitacion.adultos + habitacion.ninos < 6 ? habitacion.adultos + 1 : habitacion.adultos; totalHabitacionesHuespedes()" [disabled]="habitacion.adultos >= 6 || habitacion.adultos + habitacion.ninos >= 6"></button>
+                </td>
+                <td>
+                    <button type="button" class="fa-solid fa-minus spacing-button" (click)="habitacion.ninos = habitacion.ninos > 0 ? habitacion.ninos - 1 : 0; totalHabitacionesHuespedes()" [disabled]="habitacion.ninos <= 0"></button>
+                    <span class="cantidad">{{habitacion.ninos}}</span>
+                    <button type="button" class="fa-solid fa-plus spacing-button"  (click)="habitacion.ninos = habitacion.ninos < 5 && habitacion.adultos + habitacion.ninos < 6 ? habitacion.ninos + 1 : habitacion.ninos; totalHabitacionesHuespedes()" [disabled]="habitacion.ninos >= 6 || habitacion.adultos + habitacion.ninos >= 6"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <br>
+    <!-- Boton para añadir mas habitaciones -->
+    <button pButton type="button" icon="pi pi-plus" label="Agregar otra habitacion" (click)="agregarHabitacion()" class="bold-text" [disabled]="habitaciones.length >= 4"></button>
+    <!-- Footer del Dialogo -->
+    <p-footer>
+        <button pButton type="button" label="Listo" (click)="visible = false" class="btn-listo-custom"></button>
+    </p-footer>
+</p-dialog>

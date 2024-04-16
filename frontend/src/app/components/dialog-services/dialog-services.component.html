@@ -1,0 +1,16 @@
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable p-4">
+    <div class="modal-content ">
+        <div class="modal-header justify-content-between">
+            <h2 class="modal-title">{{ data.nombre }}</h2>
+            <button type="button" class="btn-close" (click)="closeDialog()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ">
+            <img id="img" [src]="data.pathImagen" class="dialog-img p-3 img-fluid " alt="{{ data.nombre }}">
+            <p class="lead ">{{ data.descripcion }}</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-custom" (click)="closeDialog()">Close</button>
+        </div>
+    </div>
+</div>
+

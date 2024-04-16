@@ -1,0 +1,44 @@
+@import 'primeflex/primeflex.css';
+
+.btnRegresar{
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: black;
+}
+
+.btnRegresar:hover{
+    text-decoration: underline;
+}
+
+:host ::ng-deep .user-form {
+    width: 90%;
+}
+
+:host ::ng-deep .p-inputtext{
+    width: 70%;
+}
+
+.labelForm {
+    color: black;
+}
+
+:host ::ng-deep .p-button {
+    background-color: #003068;
+    border-radius: 5px;
+}
+
+:host ::ng-deep .p-button:hover {
+    background: #002147;
+}
+
+:host ::ng-deep .p-card-title {
+    color: #1e1e1e;
+    font-weight: 600;
+}
+
+.paypal-button {
+    width: 70%;
+}
+

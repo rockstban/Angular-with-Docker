@@ -1,0 +1,17 @@
+
+#img{
+    border-radius: 30px;
+}
+p.lead{
+    text-align: justify;
+}
+
+.btn-custom {
+    color: #003068;
+    border-color: #003068;
+}
+.btn-custom:hover {
+    color: #fff;
+    background-color: #FC6736;
+    border-color: #FC6736;
+}

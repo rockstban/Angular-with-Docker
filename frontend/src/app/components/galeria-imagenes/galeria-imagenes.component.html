@@ -1,0 +1,35 @@
+<section>
+  <div class="container-fluid">
+  <h1 class="container">Galería de fotos</h1>
+  <br>
+    <div class="row row-cols-3 align-items-center flex-nowrap">
+      <div class="col-2 text-center">
+        <button class="btn" (click)="moverColumna('izquierda')">
+          <i class="bi bi-arrow-left-circle-fill fs-4 text-body-secondary" role="button"></i>
+        </button>
+      </div>
+
+      <div class="col-8">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 flex-nowrap overflow-hidden rounded rounded-3">
+          <div class="col" *ngFor="let card of cards">
+            <div class="card shadow-sm h-100 w-100 rounded rounded-3">
+              <img [src]="card.imgSrc" class="h-100 w-100 rounded rounded-3" [alt]="card.alt" />
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <button type="button" class="btn btn-sm btn-custom" (click)="abrirGaleriaDialog(card)">View</button>
+                  <small class="text-body-secondary">{{ card.rating }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-2 text-center">
+        <button class="btn" (click)="moverColumna('derecha')">
+          <i class="bi bi-arrow-right-circle-fill fs-4 text-body-secondary text-center"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,74 @@
+<!-- Seccion de busqueda de habitaciones -->
+<section class="background">
+    <div class="container text-center contenedor ">
+        <div class="row align-items-center">
+            <!-- calendario -->
+            <div class="col-md-4 mb-2">
+                <p-calendar 
+                [(ngModel)]="rangoFechas" 
+                selectionMode="range" 
+                [readonlyInput]="true" 
+                (ngModelChange)="actualizacionFechas(); validarFechas()" 
+                [minDate]="fechaMin"
+                [maxDate]="fechaMax"
+                [showIcon]="true" 
+                icon="pi pi-calendar"
+                [ngClass]="{'ng-invalid ng-dirty': fechaInvalida}"></p-calendar>
+            </div>
+            <!-- seleccionar habitaciones y huespedes -->
+            <div class="col-md-4 mb-2">
+                <button pButton (click)="mostrarDialogo()" icon="pi pi-user" label="Habitaciones: {{totalHabitaciones}}, Huéspedes: {{totalHuespedes}}" class="btn-container"></button>
+            </div>
+            <!-- botón para realizar la busqueda -->
+            <div class="col-md-4">
+                <p-toast></p-toast>
+                <button pButton icon="pi pi-search" label="Consultar habitaciones" (click)="buscarHabitaciones()" class="btn-container" [disabled]="botonBuscar"></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dialogo para seleccionar habitaciones y huespedes -->
+<p-dialog [closable]="true" header="Habitaciones y huéspedes" [(visible)]="visible" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false" [breakpoints]="{'1500px': '50vw', '1150px': '60vw', '900px': '70vw', '700px': '80vw', '600px': '90vw', '460px': '100vw'}">
+    <p-table [value]="habitaciones">
+        <!-- Header de la tabla -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th></th>
+                <th>Habitaciones</th>
+                <th>Adultos</th>
+                <th>Niños</th>
+            </tr>
+        </ng-template>
+        <!-- Cuerpo de la tabla -->
+        <ng-template pTemplate="body" let-habitacion let-i="rowIndex">
+            <tr>
+                <td>
+                <button type="button" class="fa-solid fa-trash trash-icon" (click)="eliminarHabitacion(i)" [disabled]="habitaciones.length <= 1"></button>
+                </td>
+                <td>{{habitacion.label}}</td>
+                <td>
+                    <div class="d-flex">
+                    <button type="button" class="fa-solid fa-minus spacing-button"  (click)="habitacion.adultos = habitacion.adultos > 1 ? habitacion.adultos - 1 : 1; totalHabitacionesHuespedes()" [disabled]="habitacion.adultos <= 1"></button>
+                    <span class="cantidad">{{habitacion.adultos}}</span>
+                    <button type="button" class="fa-solid fa-plus spacing-button"  (click)="habitacion.adultos = habitacion.adultos < 6 && habitacion.adultos + habitacion.ninos < 6 ? habitacion.adultos + 1 : habitacion.adultos; totalHabitacionesHuespedes()" [disabled]="habitacion.adultos >= 6 || habitacion.adultos + habitacion.ninos >= 6"></button>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex">
+                    <button type="button" class="fa-solid fa-minus spacing-button" (click)="habitacion.ninos = habitacion.ninos > 0 ? habitacion.ninos - 1 : 0; totalHabitacionesHuespedes()" [disabled]="habitacion.ninos <= 0"></button>
+                    <span class="cantidad">{{habitacion.ninos}}</span>
+                    <button type="button" class="fa-solid fa-plus spacing-button"  (click)="habitacion.ninos = habitacion.ninos < 5 && habitacion.adultos + habitacion.ninos < 6 ? habitacion.ninos + 1 : habitacion.ninos; totalHabitacionesHuespedes()" [disabled]="habitacion.ninos >= 6 || habitacion.adultos + habitacion.ninos >= 6"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <br>
+    <!-- Boton para añadir mas habitaciones -->
+    <button pButton type="button" icon="pi pi-plus" label="Agregar otra habitacion" (click)="agregarHabitacion()" class="bold-text" [disabled]="habitaciones.length >= 4"></button>
+    <!-- Footer del Dialogo -->
+    <p-footer>
+        <button pButton type="button" label="Listo" (click)="visible = false" class="btn-listo-custom"></button>
+    </p-footer>
+</p-dialog>

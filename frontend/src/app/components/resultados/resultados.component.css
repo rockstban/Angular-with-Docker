@@ -1,0 +1,111 @@
+/*Estilo para las imagenes*/
+.imagenHabitacion{
+    height: 30%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+
+  /* Estilo para las tarjetas */
+.card{
+    /* border-radius: 15px;border-color: #d2d2d2;  */
+    border-radius: 15px;
+    border-color: #dadada;
+    background-color:rgb(251, 251, 251);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+/*Estilo para el boton de detalles*/
+.btn-detalles{
+    text-decoration: none;
+    margin: 0;
+    line-height: 1;
+    padding: 0;
+}
+.btn-detalles:hover{
+    text-decoration: underline;
+}
+
+/*Estilos para el boton seleccionar y eliminar seleccion*/
+.btnCard{
+    background: #003068;
+    color: white;
+    transition: all 100ms;
+    border-radius: 5px;
+    font-weight: 600;
+    border: none;
+}
+.btnCard:hover{
+    background: #002147;
+}
+
+/*Estilos para el componente de pasos*/
+:host ::ng-deep .p-steps .p-steps-item .p-steps-number{
+    cursor: pointer;
+    text-decoration: none;
+    background-color: #002147;
+}
+:host ::ng-deep .p-steps .p-steps-item .p-steps-title {
+  cursor: pointer;
+  color: #001936;
+}
+:host ::ng-deep .p-steps .p-steps-item a.p-menuitem-link.ng-star-inserted {
+    text-decoration: none;
+}
+
+/*Estilos para cuando se seleccione una habitacion*/
+.selected {
+    border-radius: 15px;
+    border: 5px solid #045abe;
+}
+.selected::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight:bolder;
+    content: "\f00c"; /*Icono de check*/
+    position: absolute;
+    top: 0;
+    right: 0px;
+    color: white;
+    background-color: #045abe;
+    padding: 7px;
+    font-size: 20px;
+
+}
+
+/*Estilos para mostrar cuando una habitacion no esta disponible*/
+.pSinDisponibilidad {
+    color: #A7183C;
+    margin: 0;
+    line-height: 1;
+    font-weight:500;
+
+
+}
+
+/* Estilos para la cantidad de habitaciones disponibles*/
+.disponibles p{
+    color: #FC6736;
+    font-weight: bolder;
+    font-size:small;
+    margin: 0;
+    padding: 0;
+}
+
+/*Estilos para mostrar el precio*/
+.precio p{
+    font-weight: bolder;
+    font-size:x-large;
+    margin: 0;
+    padding: 0;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sinDisponibilidad {
+    margin-left: auto;
+  }
+

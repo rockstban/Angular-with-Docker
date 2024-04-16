@@ -1,0 +1,134 @@
+
+/*Poner una imagene de findo en la seccion del buscador
+y dar algunos estilos*/
+.background {
+    background-image: url('../../../assets/img/portada.jpg');
+    background-size: cover;
+    height: 250px;
+    background-position: center;
+
+    display: flex;
+    align-items: center;
+}
+
+/* botones para incrementar y decrementar 
+la cantidad de habitaciones y huespedes */
+.spacing-button {
+    border-radius: 30px;
+    color: #002147;
+    border: 1px solid #002147;
+    background-color: white;
+}
+
+.spacing-button:disabled {
+    border-color: #bcbbbb;
+    color: #bcbbbb;
+}
+
+/*para tener un espacio entre los botones para incremetar,decrementar y la cantidad*/
+.cantidad {
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+/* Para quitar los estilos del boton de "Añadir otra habitacion" en el diálogo
+y poner el texto en negrita*/
+.bold-text  {
+    font-weight: bold;
+    color: #000000;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+/*Dar estilos al boton-ícono de eliminiar (trash)*/
+.trash-icon {
+    color: #002147;
+    background: none;
+    border: none;
+}
+.trash-icon:disabled {
+    color: #bcbbbb;
+}
+
+/*Dar estilos al boton "Listo" en el dialogo*/
+.btn-listo-custom{
+    background: #003068;
+    color: white;
+    transition: all 100ms;
+    border-radius: 5px;
+}
+.btn-listo-custom:hover{
+    background: #002147;
+}
+
+/*Dar estilos al contenedor el cual contiene el calendario
+todos los elementos para realizar la busqueda*/
+.contenedor {
+    background-color: rgba(255, 255, 255, 0.5);
+    
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+/*Dar estilos a los botones que estan dentro del contenedor*/
+.btn-container{
+    color: #242424;
+    background-color: white;
+    border: 1px solid #004ba0;
+    border-radius: 5px;
+}
+.btn-container:hover{
+    color: #242424;
+    background-color: #ececec;
+}
+
+/*Dar estilos al campo donde se muestra el rango de fechas*/
+:host ::ng-deep .p-calendar .p-inputtext {
+    color: #000000;
+    font-weight:500;
+    background-color: white;
+    border: 1px solid #004ba0;
+    cursor: pointer;
+}
+
+/*Estilos para el campo donde se muestra el rango de fechas cuando 
+el rango es invalido*/
+:host ::ng-deep .ng-invalid.ng-dirty .p-inputtext {
+    border: 2px solid red !important;
+}
+
+/*Estilos para el calendario cuando se muestra*/
+:host ::ng-deep .p-calendar .p-datepicker {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+/*Para mostrar una separacion entre los componentes de la busqueda*/
+.col-md-4 {
+    border-right: 1px solid #004ba0; /* Change #000 to the color you want */
+}
+.col-md-4:last-child {
+    border-right: none;
+}
+@media (max-width: 767px) {
+    .col-md-4 {
+      border-right: none;
+    }
+}
+
+/*dar estilos al icono del calendario*/
+:host ::ng-deep .p-calendar .p-button{
+    background-color: #003068;
+    border-color: #003068;
+}
+
+/*Cambiar los estilos de los dias seleccionados en el calendario*/
+:host ::ng-deep .p-datepicker table td > span.p-highlight {
+    font-weight: 600;
+    color: #003068;
+    background: #e2ebf8;
+}

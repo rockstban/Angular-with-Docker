@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile.backend
+    ports:
+      - '2000:3600'
+    env_file:
+      - ./backend/backend.env
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    container_name: backend-container
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dockerfile.frontend
+    ports:
+      - '1500:80'
+    container_name: angular-frontend
+    depends_on:
+      - backend

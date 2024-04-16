@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary header">
+  <div class="container-fluid justify-content-between ms-lg-5 me-lg-5">
+    <a class="navbar-brand" routerLink="/about-us">
+      <img class="logo_img ms-5" src="../../../assets/img/logo.png" alt="logo" title="logo">
+    </a>
+    <button class="navbar-toggler text-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="colapse" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- <div class="separador"></div> -->
+    <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2">
+        <li class="nav-item ms-lg-3 me-lg-3" >
+          <a class="nav-link item" (click)="sobreNosotros()">SOBRE NOSOTROS</a>
+        </li>
+        <li class="nav-item me-lg-3">
+          <a class="nav-link item" (click)="nuestrosServicios()">NUESTROS SERVICIOS</a>
+        </li>
+        <li class="nav-item me-lg-3">
+          <a class="nav-link item" (click)="galeriaFotos()">GALERÍA DE FOTOS</a>
+        </li>
+        <li class="nav-item me-lg-3">
+          <a class="nav-link item" (click)="ubicacionContacto()">UBICACIÓN Y CONTACTO</a>
+        </li>
+      </ul>
+      <!-- <form class="" role="search"> -->
+        <button class="btn btn-custom" (click)="buscarReserva()">BUSCAR RESERVA</button>
+      <!-- </form> -->
+      <div class="separador2"></div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,19 @@
+<div class="overlay" *ngIf="cargando">
+  <p-progressSpinner ariaLabel="loading" ></p-progressSpinner>
+</div>
+<div class="container mt-5" *ngIf="!cargando">
+    <div class="jumbotron text-center">
+      <h1 class="display-4">¡Pago Exitoso!</h1>
+      <p class="lead">Gracias por su reserva. Su pago ha sido procesado con éxito.</p>
+      <hr class="my-4">
+      <p>Hemos enviado los detalles de la reserva a 
+        <span style="font-weight: 600;">{{reserva.correoElectronico}}</span>
+      </p>
+      <p>
+        Tambien puede ver su reserva mediante el código de reserva:
+        <span type="button" class="btn btn-link btn-detalles" (click)="detalles()">{{reserva._id}}</span>
+      </p>
+      <br>
+      <button pButton type="submit" label="Ir al inicio" icon="pi pi-home" iconPos="left" class="inicio" (click)="inicio()"></button>
+    </div>
+  </div>

@@ -1,0 +1,84 @@
+
+<div class="container text-center" *ngIf="cargandoIngresoDatosCliente">
+  <div class="spinner-grow" role="status">
+      <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<section *ngIf="!cargandoIngresoDatosCliente">
+  <div class="container">
+    <div class="jumbotron">
+      <h2 class="titulo">Pago de la reserva</h2>
+    </div>
+  <hr class="border border-primary border-2 opacity-75 my-3">
+    <button type="button" class="btn btn-primary btnRegresar" (click)="actualizarSeleccionHabitaciones()">
+      <i class="fa-solid fa-angle-left"></i>
+      Regresar
+    </button>
+    <br><br>
+    <div class="row">
+      <div class="col">
+        <p-card styleClass="user-form" header="Información del huesped"> 
+          <form [formGroup]="userForm" (ngSubmit)="addCliente()">
+            <div class="field">
+              <label for="nombreCompleto" class="block labelForm">Nombre completo</label>
+              <input type="text" pInputText placeholder="Ingresa tu nombre completo" formControlName="nombreCompleto">
+              <small class="p-error block" *ngIf="userForm.get('nombreCompleto')?.invalid && userForm.get('nombreCompleto')?.dirty">El campo es inválido o no ha ingresado el nombre</small>
+            </div>
+            <br>
+            <div class="field">
+              <label for="numeroContacto" class="block labelForm">Número de contacto</label>
+              <input type="text" pInputText placeholder="Por si debemos contactarte" formControlName="numeroContacto">
+              <small class="p-error block" *ngIf="userForm.get('numeroContacto')?.invalid && userForm.get('numeroContacto')?.dirty">El campo es inválido o no ha ingresado el número</small>
+            </div>
+            <br>
+            <div class="field">
+              <label for="correoElectronico" class="block labelForm">Correo electrónico</label>
+              <input type="text" pInputText placeholder="Aquí recibirás información" formControlName="correoElectronico">
+              <small class="p-error block" *ngIf="userForm.get('correoElectronico')?.invalid && userForm.get('correoElectronico')?.dirty">El campo es inválido o no ha ingresado el correo</small>
+            </div>
+            <br>
+            <!-- <p-button label="Realizar el pago con paypal" icon="pi pi-paypal" iconPos="right" [disabled]="userForm.invalid" class="btnRealizarPago"></p-button> -->
+            <div class="paypal-button" id="payment_options"></div>
+          </form>
+        </p-card>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title text-center mb-4">Detalles de la Reserva</h4>
+            <p class="card-text"> <strong>CheckIn:</strong>  {{consultas.fechaInicio | date:'d MMMM, y'}} </p>
+            <p class="card-text"> <strong>CheckOut:</strong> {{consultas.fechaFin | date:'d MMMM, y'}} </p>
+              <div *ngFor="let habitacion of habitaciones; let i = index" class="mb-4">
+                <span *ngIf="habitacionesSeleccionadasCliente[i]">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <span class="mr-6">{{ habitacion.label }} </span>
+                      </h5>
+                        <div>
+                          <h5>  {{ habitacionesSeleccionadasCliente[i].precio * noches | currency:'USD':'symbol':'1.2-2' }}</h5>
+                          <p class="card-text">
+                            <i class="fa-solid fa-user-group"></i>
+                            {{ habitacion.adultos }} {{ habitacion.adultos === 1 ? 'adulto' : 'adultos' }}
+                            <span *ngIf="habitacion.ninos !== 0">
+                              y {{ habitacion.ninos }} {{ habitacion.ninos === 1 ? 'niño' : 'niños' }}
+                            </span>
+                          </p>
+                          <p class="mt-3"> 
+                            <span style="color: black;">{{ habitacionesSeleccionadasCliente[i].nombre }}   </span>
+                            <span style="color: gray; font-size: smaller;">   {{ noches }} noche(s) x {{habitacionesSeleccionadasCliente[i].precio | currency:'USD':'symbol':'1.2-2' }}</span>
+                          </p>
+                        </div> 
+                    </div>
+                  </div>
+                </span>
+              </div>
+            <div class="border-top mt-3"></div>
+            <br>
+            <h5 class="card-title"> Total de la estadía: {{total | currency:'USD':'symbol':'1.2-2'}}  </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,130 @@
+<div class="container text-center" *ngIf="cargando">
+    <div class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<section *ngIf="!cargando">
+    <div class="container">
+        <h3 class="mb">Resultados</h3>
+        <p-steps [model]="items" [readonly]="false" [activeIndex]="activeIndex" (activeIndexChange)="onActiveIndexChange($event)"></p-steps>
+        <br>
+        <div class="container text-center" *ngIf="cargando2">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div *ngIf="!cargando2">
+            <div *ngFor="let respuesta of respuestas; let i = index;">
+                <div *ngIf="activeIndex === i">
+                    <div class="container" id="card-grid">
+                        <div class="d-flex">
+                            <i class="fa-solid fa-user-group px-2 py-1"></i>
+                            <p>
+                                {{ habitacionHuespedes[i].adultos }}
+                                <span *ngIf="habitacionHuespedes[i].adultos > 1">adultos</span>
+                                <span *ngIf="habitacionHuespedes[i].adultos === 1">adulto</span>
+                                <span *ngIf="habitacionHuespedes[i].ninos > 0">, 
+                                    {{ habitacionHuespedes[i].ninos }}
+                                    <span *ngIf="habitacionHuespedes[i].ninos > 1">niños</span>
+                                    <span *ngIf="habitacionHuespedes[i].ninos === 1">niño</span>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="row g-4 py-5">
+                            <div *ngFor="let room of respuestas[i]; let j = index" class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="card h-100" [class.selected]="habitacionesSeleccionadas[i] === room">
+                                    <img class="imagenHabitacion" [src]="url+'obtener-imagen/'+room.imagenes[0]">
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ room.nombre }}</h6>
+                                        <div class="d-flex">
+                                            <i class="fa-solid fa-user-group px-2 py-1"></i>
+                                            <p>{{ room.capacidad }} personas</p>
+                                        </div>
+                                        <div class="d-flex camas">
+                                            <i class="fa-solid fa-bed px-2 py-1 iconoCamas"></i>
+                                            <p class="pCamas">
+                                                {{ room.camaGrande }} 
+                                                <span *ngIf="room.camaGrande > 1">camas grandes</span>
+                                                <span *ngIf="room.camaGrande === 1">cama grande</span>
+                                                <span *ngIf="room.camaIndividual > 0">, 
+                                                    {{ room.camaIndividual }} 
+                                                    <span *ngIf="room.camaIndividual > 1">camas individuales</span>
+                                                    <span *ngIf="room.camaIndividual === 1">cama individual</span>
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="py-1 px-1">
+                                            <button type="button" class="btn btn-link btn-detalles " (click)="visible(room)">Detalles de la habitación ></button>
+                                        </div>
+                                        <div class="disponibles px-1 py-3">
+                                            <p>Disponibles: {{ room.disponibles }}</p>
+                                        </div>
+                                        <div *ngIf="room.disponibles > 0" class="precio px-1">
+                                            <p>${{ room.precio }}</p>
+                                        </div>
+                                        <div class="d-grid gap-2 col-6 mx-auto">
+                                            <button *ngIf="room.disponibilidad" [disabled]="botonSeleccionarDesactivado[i]" class="btn btn-primary btnCard" type="button" (click)="selectedRoom(room, i, j)">Seleccionar</button>
+                                            <button *ngIf="habitacionesSeleccionadas[i] === room" class="btn btn-primary btnCard" type="button" (click)="deleteSelection(room, i, j)">Eliminar selección</button>
+                                        </div>
+                                        <div class="sinDisponibilidad mt-auto text-end" *ngIf="!room.disponibilidad">
+                                            <p class="pSinDisponibilidad lead">Sin disponibilidad</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<p-dialog  header="Informacion habitacion" [(visible)]="visible_modal" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false" [breakpoints]="{'1500px': '50vw', '1150px': '60vw', '900px': '70vw', '700px': '80vw', '600px': '90vw', '460px': '100vw'}" >
+    <p-galleria [value]="modal_room.imagenes" [numVisible]="5" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [containerStyle]="{ 'max-width': '640px' }" >
+        <ng-template pTemplate="item" let-item>
+            <img [src]="url + 'obtener-imagen/' +item" style="width: 100%; display: block;" class="rounded-3" />
+        </ng-template>
+    </p-galleria>
+
+    <div class="container-fluid mt-3">
+        <div class="text-black">
+            <h3>{{modal_room.nombre}}</h3>
+            <!-- <p>{{modal_room.totalRooms}} Habitaciones Diponibles</p> -->
+
+            <h4><i class="fa-solid fa-house"></i> Caracteristicas</h4>            
+            <p><i class="fa-solid fa-user-group"></i> {{modal_room.capacidad}} Personas</p>
+            <p><i class="fa-solid fa-bed"></i> {{modal_room.camaGrande}} Camas Grandes</p>
+            <p><i class="fa-solid fa-bed"></i> {{modal_room.camaIndividual}} Camas Individuales</p>
+            <p><i class="fa-solid fa-dollar-sign"></i> {{modal_room.precio}} por noche</p>
+            <div class="row row-cols-2">
+                <div class="col">
+                    <p class="h4"><i class="fa-solid fa-star"></i> Comodidades</p>
+                    <ul>
+                        <li *ngFor="let amenidad of modal_room.amenidades.mas"> {{amenidad}}</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <p class="h4"><i class="fa-solid fa-check"></i> Entretenimiento</p>
+                    <ul>
+                        <li *ngFor="let amenidad of modal_room.amenidades.entretenimiento"> {{amenidad}}</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="h4"><i class="fa-solid fa-utensils"></i> Comida</p>
+                    <ul>
+                        <li *ngFor="let amenidad of modal_room.amenidades.alimentosBebidas"> {{amenidad}}</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="h4"><i class="fa-solid fa-bath"></i> Baño</p>
+                    <ul>
+                        <li *ngFor="let amenidad of modal_room.amenidades.bano"> {{amenidad}}</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <br>
+</p-dialog>

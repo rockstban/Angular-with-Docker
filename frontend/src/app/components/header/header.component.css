@@ -1,0 +1,45 @@
+.logo_img{
+    width: 100px;
+}
+
+/* .nav-item {
+    margin-right: 70px;
+} */
+
+.header {
+    box-shadow: 0px 0px 20px ;
+}
+
+.btn-custom {
+    color: #003068;
+    border-color: #003068;
+}
+.btn-custom:hover {
+    color: #fff;
+    background-color: #FC6736;
+    border-color: #FC6736;
+}
+
+.item{
+    display: block;
+    color: #003068;
+    font-weight: bolder;
+    text-decoration: none;
+    transition: all 200ms;
+    cursor: pointer;
+    
+}
+
+.item:hover{
+    color: #FC6736;
+    transform: scale(1.1,1.1);
+}
+
+
+/* .separador{
+    margin-left: 100px;
+}
+*/
+.separador2{
+    margin-right: 50px;
+} 

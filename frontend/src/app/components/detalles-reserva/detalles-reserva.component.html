@@ -1,0 +1,192 @@
+<div class="overlay" *ngIf="cargando">
+    <p-progressSpinner ariaLabel="loading" ></p-progressSpinner>
+</div>
+
+<p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+<div class="container" *ngIf="mostrarDatos">
+    <div class="jumbotron">
+        <h2 class="titulo">Ver y editar una reserva</h2>
+    </div>
+    <hr class="border border-primary border-2 opacity-75 my-3">
+    <div class="lead">
+        <p><span class="classNegrita">Código de la reserva:</span> {{ reserva._id }}</p>
+    </div>
+    <div class="row" >
+        <div class="col-md-6 mb-5">
+            <img class="imgDetalle" src="../../../assets/img/hotel-copo-de-nieve.jpeg" alt="">
+            <br>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="dates-container">
+                            <div class="date-container">
+                                <span class="day-number">{{ checkInNumMes }}</span>
+                                <div class="day-details">
+                                    <span class="month">{{ checkInMes }}</span>
+                                    <span class="weekday">{{ checkInDia }}</span>
+                                </div>
+                            </div>
+                            <span class="date-separator">
+                                <i class="fa-solid fa-minus"></i>
+                            </span>
+                            <div class="date-container">
+                                <span class="day-number">{{ checkOutNumMes }}</span>
+                                <div class="day-details">
+                                    <span class="month">{{ checkOutMes }}</span>
+                                    <span class="weekday">{{ checkOutDia }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col">
+                        <p-button class="right-align" type="submit" label="Editar reserva" (click)="modificarReserva()"></p-button>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+                <span>
+                    {{habitaciones.length}}
+                    <span *ngIf="habitaciones.length > 1">habitaciones para</span>
+                    <span *ngIf="habitaciones.length === 1">Habitación para</span>
+                    {{totalAdultos}}
+                    <span *ngIf="totalAdultos > 1">adultos </span>
+                    <span *ngIf="totalAdultos === 1">adulto </span>
+                    <span *ngIf="totalNinos > 0">y 
+                        {{totalNinos}}
+                        <span *ngIf="totalNinos > 1">niños</span>
+                        <span *ngIf="totalNinos === 1">niño</span>
+                    </span>
+                </span>
+                <br>
+                <span *ngIf="noches > 0"> 
+                    {{noches}}
+                    <span *ngIf="noches > 1">noches</span>
+                    <span *ngIf="noches === 1">noche</span>
+                </span>
+                <br>
+                <br>
+                <p class="lead classNegrita">Política de cancelación</p>
+                <hr class="">
+                <p>Cancelación con el reembolso total de la reserva hasta el <strong>{{limiteParaCancelarFormat}}</strong> , despues de esa fecha no se realizarán reembolsos.</p>    
+                <span *ngIf="limiteParaCancelar>=fechaactual" type="button" class="btn btn-link btn-detalles" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Cancelar esta reservación ></span>
+
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel">ATENCION!</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body"> 
+                            <p>Estas a punto de eliminar la reserva. Estas seguro?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-danger" (click)="confirm_eliminar(reserva._id)" data-bs-dismiss="modal">Si, eliminar</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                
+            </div>  
+        </div>
+        <div class="col-md-6">
+            <p class="lead classNegrita"> Habitaciones y precios</p>
+            <hr class="">
+            <span *ngFor="let habitacion of reserva.habitaciones, let i = index">
+                <div class="d-flex justify-content-between">
+                    <span class="classNegrita">Habitación {{i+1}}</span>
+                    <span class="classNegrita">${{ habitaciones[i].precio*noches }}</span>
+                </div>
+                <span>{{ habitaciones[i].nombre }}</span>
+                <br>
+                <span>${{habitaciones[i].precio}} por noche</span>
+                <br>
+                <div class="d-flex">
+                    <span style="color: gray;">
+                        {{ habitacion.adultos }}
+                        <span *ngIf="habitacion.adultos > 1">adultos</span>
+                        <span *ngIf="habitacion.adultos === 1">adulto</span>
+                        <span *ngIf="habitacion.ninos > 0">, 
+                            {{ habitacion.ninos }}
+                            <span *ngIf="habitacion.ninos > 1">niños</span>
+                            <span *ngIf="habitacion.ninos === 1">niño</span>
+                        </span>
+                    </span>
+                </div>
+                <span type="button" class="btn btn-link btn-detalles" (click)="visible(habitaciones[i])">Detalles de la habitación ></span>
+                <br>
+                <br>
+            </span>
+            <hr>
+            <h4 class="classNegrita" style="text-align: right;">Total de la estadía: ${{reserva.precioTotal}}</h4>
+            <br>
+            <p class="lead classNegrita">Información del huésped</p>
+            <hr>
+            <div class="d-flex">
+                <i class="fa-solid fa-user px-2 py-1"></i>
+                <p>{{ reserva.nombreCliente }}</p>
+            </div>
+            <div class="d-flex">
+                <i class="fa-solid fa-mobile px-2 py-1"></i>
+                <p>{{ reserva.numeroContacto }}</p>
+            </div>
+            <div class="d-flex">
+                <i class="fa-solid fa-envelope px-2 py-1"></i>
+                <p>{{ reserva.correoElectronico }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog  header="Informacion de la habitación" [(visible)]="visible_modal" [modal]="true" [style]="{ width: '40vw' }" [draggable]="false" [resizable]="false" [breakpoints]="{'1500px': '50vw', '1150px': '60vw', '900px': '70vw', '700px': '80vw', '600px': '90vw', '460px': '100vw'}" >
+    <p-galleria [value]="modal_room.imagenes" [numVisible]="5" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [containerStyle]="{ 'max-width': '640px' }" >
+        <ng-template pTemplate="item" let-item>
+            <img [src]="url + 'obtener-imagen/' +item" style="width: 100%; display: block;" class="rounded-3" />
+        </ng-template>
+    </p-galleria>
+
+    <div class="container-fluid mt-3">
+        <div class="text-black">
+            <h3>{{modal_room.nombre}}</h3>
+            <!-- <p>{{modal_room.totalRooms}} Habitaciones Diponibles</p> -->
+
+            <h4><i class="fa-solid fa-house"></i> Características</h4>            
+            <p><i class="fa-solid fa-user-group"></i> {{modal_room.capacidad}} Personas</p>
+            <p><i class="fa-solid fa-bed"></i> {{modal_room.camaGrande}} Camas Grandes</p>
+            <p><i class="fa-solid fa-bed"></i> {{modal_room.camaIndividual}} Camas Individuales</p>
+            <p><i class="fa-solid fa-dollar-sign"></i> {{modal_room.precio}} por noche</p>
+            <div class="row row-cols-2">
+                <div class="col">
+                    <p class="h4"><i class="fa-solid fa-star"></i> Comodidades</p>
+                    <ul>
+                        <li *ngFor="let amenidad of modal_room.amenidades.mas"> {{amenidad}}</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <p class="h4"><i class="fa-solid fa-check"></i> Entretenimiento</p>
+                    <ul>
+                        <li *ngFor="let amenidad of modal_room.amenidades.entretenimiento"> {{amenidad}}</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="h4"><i class="fa-solid fa-utensils"></i> Comida</p>
+                    <ul>
+                        <li *ngFor="let amenidad of modal_room.amenidades.alimentosBebidas"> {{amenidad}}</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="h4"><i class="fa-solid fa-bath"></i> Baño</p>
+                    <ul>
+                        <li *ngFor="let amenidad of modal_room.amenidades.bano"> {{amenidad}}</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <br>
+</p-dialog>
+
